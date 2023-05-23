@@ -23,16 +23,16 @@ const Home = () => {
           className="fixed top-0 left-0 z-40 w-44 h-screen"
           aria-label="Sidebar"
         >
-          <div className="h-full px-3 py-4 overflow-y-auto bg-gray-800">
+          <div className="h-full px-3 py-4 overflow-y-auto bg-gray-800 flex flex-col justify-between">
             <ul className="space-y-2 font-medium">
               <li>
                 <a
                 onClick={()=>setMenuItem("dashboard")}
-                  className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ${menuItem == "dashboard" ? "bg-slate-700" : "bg-slate-800"}`}
+                  className={`flex items-center p-2 rounded-lg text-white  hover:bg-gray-700 ${menuItem == "dashboard" ? "bg-slate-700" : "bg-slate-800"}`}
                 >
                   <svg
                     aria-hidden="true"
-                    className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400  group-hover:text-white"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -48,11 +48,11 @@ const Home = () => {
               <li>
               <a
                 onClick={()=>setMenuItem("users")}
-                  className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ${menuItem == "users" ? "bg-slate-700" : "bg-slate-800"}`}
+                  className={`flex items-center p-2 rounded-lg text-white  hover:bg-gray-700 ${menuItem == "users" ? "bg-slate-700" : "bg-slate-800"}`}
                 >
                   <svg
                     aria-hidden="true"
-                    className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -70,11 +70,11 @@ const Home = () => {
               <li>
               <a
                 onClick={()=>setMenuItem("createUser")}
-                  className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ${menuItem == "createUser" ? "bg-slate-700" : "bg-slate-800"}`}
+                  className={`flex items-center p-2 rounded-lg text-white  hover:bg-gray-700 ${menuItem == "createUser" ? "bg-slate-700" : "bg-slate-800"}`}
                 >
                   <svg
                     aria-hidden="true"
-                    className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -91,17 +91,21 @@ const Home = () => {
                 </a>
               </li>
               <li>
-                <a
+                
+              </li>
+            </ul>
+            <div>
+            <a
                   onClick={() => {
                     localStorage.setItem("isLoggedIn", false);
                     localStorage.setItem("user", null);
                     navigate("/");
                   }}
-                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="flex items-center p-2  rounded-lg text-white hover:bg-gray-700"
                 >
                   <svg
                     aria-hidden="true"
-                    className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="flex-shrink-0 w-6 h-6 transition duration-75 text-gray-400 group-hover:text-white"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -116,8 +120,7 @@ const Home = () => {
                     Sign Out
                   </span>
                 </a>
-              </li>
-            </ul>
+            </div>
           </div>
         </aside>
 

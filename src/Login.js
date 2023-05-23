@@ -7,7 +7,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState();
   const navigate = useNavigate();
- 
 
   async function login() {
     setStatus(<Spinner />);
@@ -26,13 +25,12 @@ const Login = () => {
         if (data == null) {
           setStatus(<h3 className="text-[#bf2f2f]">Invalid Credentials</h3>);
         } else {
-          localStorage.setItem('isLoggedIn', true);
-          localStorage.setItem('user', JSON.stringify(data))
-          console.log(JSON.stringify(data))
-          localStorage.getItem('user')
+          localStorage.setItem("isLoggedIn", true);
+          localStorage.setItem("user", JSON.stringify(data));
+          console.log(JSON.stringify(data));
+          localStorage.getItem("user");
           navigate("/home");
         }
-        
       })
       .catch((err) => console.log(err));
   }
@@ -47,11 +45,11 @@ const Login = () => {
               <input
                 type="text"
                 id="userName"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-10 "
+                className=" border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 mb-10"
                 placeholder="User Name"
                 onChange={(e) => {
                   setuserName(e.target.value);
-                  setStatus(null)
+                  setStatus(null);
                 }}
                 required
               />
@@ -59,29 +57,35 @@ const Login = () => {
               <input
                 type="password"
                 id="password"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-10"
+                className=" border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 mb-10"
                 placeholder="Password"
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  setStatus(null)
+                  setStatus(null);
                 }}
                 required
               />
               <button
                 type="button"
-                class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                class="  border  focus:outline-none  focus:ring-4  font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2 bg-gray-800 text-white border-gray-600 hover:bg-gray-700 hover:border-gray-600 focus:ring-gray-700"
                 onClick={() => {
-                  if(password != "" && userName!="") {
-                    login()
+                  if (password != "" && userName != "") {
+                    login();
                   } else {
-                    setStatus(<h3 className="text-white">Type your password and user name</h3>)
+                    setStatus(
+                      <h3 className="text-white">
+                        Type your password and user name
+                      </h3>
+                    );
                   }
                 }}
               >
                 Submit
               </button>
             </form>
-            <div className="flex flex-row justify-center w-full h-10 p-2">{status}</div>
+            <div className="flex flex-row justify-center w-full h-10 p-2">
+              {status}
+            </div>
           </div>
         </div>
         <div
