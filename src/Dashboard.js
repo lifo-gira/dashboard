@@ -5,7 +5,6 @@ import Videos from "./Videos";
 import Industrypie from './charts/Industrypie';
 import { Carousel } from 'bootstrap';
 import ReactPlayer from 'react-bootstrap'
-import Vid1 from './charts/videoplayback.mp4'
 import Statuschart from './charts/Statuschart';
 import Industrychart from './charts/Industrychart';
 import Sourcechart from './charts/Sourcechart';
