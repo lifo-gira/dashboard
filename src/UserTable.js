@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Spinner from "./assets/Spinner";
+import Dashboard from "./Dashboard";
 
-const UserTable = () => {
+const UserTable = ({switchToDash, setUserId}) => {
   const [users, setusers] = useState([]);
   useEffect(() => {
     fetch("https://api-h5zs.onrender.com/get-all-user/patient")
@@ -31,7 +32,14 @@ const UserTable = () => {
           <tbody>
             {users.map((val, index) => {
               return (
-                <tr class="border-b bg-gray-800 border-gray-700  hover:bg-gray-600">
+                <tr
+                  class="border-b bg-gray-800 border-gray-700  hover:bg-gray-600"
+                  onClick={(e) => {
+                    setUserId(val.user_id)
+                    switchToDash("dashboard")
+                    console.log(val);
+                  }}
+                >
                   <th
                     scope="row"
                     class="px-6 py-4 font-medium  whitespace-nowrap text-white"

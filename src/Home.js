@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { Routes, useNavigate } from "react-router-dom";
 import UserTable from "./UserTable";
 import CreateUser from "./CreateUser";
+import Dashboard from "./Dashboard";
 const Home = () => {
   const [status, setStatus] = useState(localStorage.getItem("isLoggedIn"));
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const navigate = useNavigate();
   const [menuItem, setMenuItem] = useState("users")
+  const [userId, setuserId] = useState("")
 
   useEffect(() => {
     if (status) {
@@ -127,10 +129,13 @@ const Home = () => {
         <div className="p-4 ml-44 h-screen">
           <div className="p-4 border-2 h-full border-dashed rounded-lg border-gray-700">
            {menuItem == "users" && (
-            <UserTable />
+            <UserTable switchToDash={setMenuItem} setUserId={setuserId} />
            )}
            {menuItem == "createUser" && (
             <CreateUser />
+           )}
+           {menuItem == "dashboard" && (
+            <Dashboard userId={userId} />
            )}
           </div>
         </div>

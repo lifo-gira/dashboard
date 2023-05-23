@@ -28,6 +28,7 @@ function CreateUser() {
         videos: [],
         doctor: selectedDoc.user_id
     }
+    console.log(data.user_id)
     console.log(JSON.stringify(data))
     setStatus(<Spinner />)
 
