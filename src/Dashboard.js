@@ -20,7 +20,6 @@ const Dashboard = ({ userId }) => {
       .catch((err) => {
         console.log(err);
       });
-    console.log("useffect");
   }, []);
 
   return (
