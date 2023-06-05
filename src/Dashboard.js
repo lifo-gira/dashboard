@@ -23,7 +23,7 @@ const Dashboard = ({ userId }) => {
   };
 
   async function fetchMetrics(data) {
-    const response = await fetch("http://localhost:8000/metrics", {
+    const response = await fetch("https://api-h5zs.onrender.com/metrics", {
       method: "POST",
       cache: "no-cache",
       headers: {
