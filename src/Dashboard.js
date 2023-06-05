@@ -1,25 +1,65 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Spinner from "./assets/Spinner";
 import Detail from "./Detail";
 import Videos from "./Videos";
-import Industrypie from './charts/Industrypie';
-import { Carousel } from 'bootstrap';
-import ReactPlayer from 'react-bootstrap'
-import Statuschart from './charts/Statuschart';
-import Industrychart from './charts/Industrychart';
-import Sourcechart from './charts/Sourcechart';
-import ActiveUsersChart from './charts/ActiveUsersChart';
+import Industrypie from "./charts/Industrypie";
+import { Carousel } from "bootstrap";
+import ReactPlayer from "react-bootstrap";
+import Statuschart from "./charts/Statuschart";
+import Industrychart from "./charts/Industrychart";
+import Sourcechart from "./charts/Sourcechart";
+import ActiveUsersChart from "./charts/ActiveUsersChart";
+import { json } from "react-router-dom";
+import ScrollToBottom, { useAtStart } from "react-scroll-to-bottom";
 
 const Dashboard = ({ userId }) => {
   const [patient, setPatient] = useState();
+  const [metrics, setMetrics] = useState([]);
+  const messagesEndRef = useRef(null);
+  const [autoScroll, setAutoScroll] = useState(false);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  async function fetchMetrics(data) {
+    const response = await fetch("http://localhost:8000/metrics", {
+      method: "POST",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  }
+
+  useEffect(() => {
+    if (autoScroll) {
+      scrollToBottom();
+    }
+  }, [metrics]);
 
   useEffect(() => {
     fetch(`https://api-h5zs.onrender.com/get-user/patient/${userId}`)
       .then((res) => res.json())
-      .then((data) => setPatient(data))
+      .then((data) => {
+        setPatient(data);
+        fetchMetrics(data.data).then((metrics) => {
+          setMetrics(metrics);
+        });
+        setInterval(() => {
+          fetchMetrics(data.data).then((metrics) => {
+            setMetrics(metrics);
+          });
+        }, 5000);
+      })
       .catch((err) => {
         console.log(err);
       });
+    return () => {
+      clearInterval();
+    };
   }, []);
 
   return (
@@ -31,19 +71,19 @@ const Dashboard = ({ userId }) => {
           </h2>
           <div className="grid grid-cols-3 gap-4 mb-4">
             <div className="flex items-center justify-center h-24 rounded bg-gray-800">
-              <p className=" text-gray-200">
+              <div className=" text-gray-200">
                 <Detail title={"Name"} value={patient.name} />
-              </p>
+              </div>
             </div>
             <div className="flex items-center justify-center h-24 rounded bg-gray-800">
-              <p className=" text-gray-200">
+              <div className=" text-gray-200">
                 <Detail title={"Doctor"} value={patient.doctor} />
-              </p>
+              </div>
             </div>
             <div className="flex items-center justify-center h-24 rounded bg-gray-800">
-              <p className=" text-gray-200">
+              <div className=" text-gray-200">
                 <Detail title={"Severity"} value={"Low"} />
-              </p>
+              </div>
             </div>
           </div>
           <h2 className="text-gray-200 font-bold text-lg mb-3">
@@ -76,66 +116,57 @@ const Dashboard = ({ userId }) => {
 
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div className="flex flex-col items-center justify-start p-2 rounded h-80 bg-gray-800">
-                <h2 className="text-gray-200 font-mono mb-2">Types of Activities</h2>
+              <h2 className="text-gray-200 font-mono mb-2">
+                Types of Activities
+              </h2>
               <Industrypie />
             </div>
             <div className="flex flex-col items-center justify-start p-2 rounded h-80 bg-gray-800">
-                <h2 className="text-gray-200 font-mono mb-2">Walking Time</h2>
+              <h2 className="text-gray-200 font-mono mb-2">Walking Time</h2>
               <Sourcechart />
             </div>
             <div className="flex flex-col items-center justify-start p-2 rounded h-80 bg-gray-800">
-                <h2 className="text-gray-200 font-mono mb-2">Active Users</h2>
+              <h2 className="text-gray-200 font-mono mb-2">Active Users</h2>
               <ActiveUsersChart />
             </div>
             <div className="flex flex-col items-center justify-start p-2 rounded h-80 bg-gray-800">
-                <h2 className="text-gray-200 font-mono mb-2">Week's Activity</h2>
+              <h2 className="text-gray-200 font-mono mb-2">Week's Activity</h2>
               <Industrychart />
             </div>
           </div>
 
-          <h2 className="text-gray-200 font-bold text-lg mb-3">
-            Raw Logs
-          </h2>
+          <div className="flex w-full justify-between">
+            <h2 className="text-gray-200 font-bold text-lg mb-3">Raw Logs</h2>
+            <button
+              className="text-white bg-gray-800 hover:bg-gray-700 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+              onClick={() => {
+                setAutoScroll(() => {
+                  return !autoScroll;
+                });
+              }}
+            >
+              {autoScroll ? "Auto Scroll Enabled" : "Auto Scroll Disabled"}
+            </button>
+          </div>
           <div className="flex items-center justify-center h-[280px] mb-4 p-3 rounded bg-gray-800">
-            <div className="w-full h-full bg-black text-white rounded p-3 overflow-scroll font-mono">
-              <p>
-                May 23 05:01:35 PM INFO: 223.178.80.194:0 - "GET
-                /get-user/patient/patient999 HTTP/1.1" 200 OK
-                <br />
-                May 23 05:01:39 PM INFO: 223.178.80.194:0 - "GET
-                /get-user/patient/patient999 HTTP/1.1" 200 OK
-                <br />
-                May 23 05:01:47 PM INFO: 223.178.80.194:0 - "GET
-                /get-user/patient/patient999 HTTP/1.1" 200 OK
-                <br />
-                May 23 05:02:04 PM INFO: 223.178.80.194:0 - "GET
-                /get-user/patient/patient999 HTTP/1.1" 200 OK
-                <br />
-                May 23 05:02:11 PM INFO: 223.178.80.194:0 - "GET
-                /get-user/patient/patient999 HTTP/1.1" 200 OK
-                <br />
-                May 23 05:03:10 PM INFO: 223.178.80.194:0 - "GET
-                /get-all-user/patient HTTP/1.1" 200 OK
-                <br />
-                May 23 05:03:10 PM INFO: 223.178.80.194:0 - "GET
-                /get-all-user/patient HTTP/1.1" 200 OK
-                <br />
-                May 23 05:03:11 PM INFO: 223.178.80.194:0 - "GET
-                /get-all-user/doctor HTTP/1.1" 200 OK
-                <br />
-                May 23 05:03:12 PM INFO: 223.178.80.194:0 - "GET
-                /get-all-user/doctor HTTP/1.1" 200 OK
-                <br />
-                May 23 05:03:14 PM INFO: 223.178.80.194:0 - "GET
-                /get-user/patient/patient999 HTTP/1.1" 200 OK
-                <br />
-                May 23 05:03:14 PM INFO: 223.178.80.194:0 - "GET
-                /get-user/patient/patient999 HTTP/1.1" 200 OK
-              </p>
+            <div
+              className="w-full h-full bg-black text-white rounded p-3 overflow-scroll font-mono"
+              key={userId}
+            >
+              <ul>
+                {metrics.map((val, i) => (
+                  <li>
+                    ${i}: {val.data_id}
+                    <ul className="indent-10">
+                      <li>{val.device_id}</li>
+                      <li>{JSON.stringify(val.series)}</li>
+                    </ul>
+                  </li>
+                ))}
+                <div ref={messagesEndRef} />
+              </ul>
             </div>
           </div>
-
-          
         </div>
       )}
       {patient == null && userId != "" && <Spinner />}

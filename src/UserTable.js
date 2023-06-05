@@ -11,20 +11,20 @@ const UserTable = ({switchToDash, setUserId}) => {
   }, []);
 
   return (
-    <div class="relative h-full overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="relative h-full overflow-x-auto shadow-md sm:rounded-lg">
       {users == [] ? (
         <Spinner />
       ) : (
-        <table class="w-full text-sm text-left  text-gray-400">
-          <thead class="text-xs sticky top-0 uppercase  bg-gray-700 text-gray-400">
+        <table className="w-full text-sm text-left  text-gray-400">
+          <thead className="text-xs sticky top-0 uppercase  bg-gray-700 text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Name
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Doctor
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Severity
               </th>
             </tr>
@@ -33,7 +33,7 @@ const UserTable = ({switchToDash, setUserId}) => {
             {users.map((val, index) => {
               return (
                 <tr
-                  class="border-b bg-gray-800 border-gray-700  hover:bg-gray-600"
+                  className="border-b bg-gray-800 border-gray-700  hover:bg-gray-600"
                   onClick={(e) => {
                     setUserId(val.user_id)
                     switchToDash("dashboard")
@@ -42,12 +42,12 @@ const UserTable = ({switchToDash, setUserId}) => {
                 >
                   <th
                     scope="row"
-                    class="px-6 py-4 font-medium  whitespace-nowrap text-white"
+                    className="px-6 py-4 font-medium  whitespace-nowrap text-white"
                   >
                     {val.name}
                   </th>
-                  <td class="px-6 py-4">{val.doctor}</td>
-                  <td class="px-6 py-4">low</td>
+                  <td className="px-6 py-4">{val.doctor}</td>
+                  <td className="px-6 py-4">low</td>
                 </tr>
               );
             })}
